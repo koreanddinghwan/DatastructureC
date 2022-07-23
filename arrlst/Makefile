@@ -1,16 +1,19 @@
 CC=cc
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -g3 -fsanitize=address
 ARR=arr_test
 LLST=lst_test
 
-ARR_SRCS = $(main_arrlist.c arraylist.c)
+ARR_SRCS = main_arrlist.c arraylist.c
 ARR_OBJS = $(ARR_SRCS:.c=.o)
 
-LLST_SRCS = $(main_linkedlist.c linkedlist.c)
+LLST_SRCS = main_linkedlist.c linkedlist.c
 LLST_OBJS = $(LLST_SRCS:.c=.o)
 
 
 all : $(ARR) $(LLST)
+
+%.o : %.c
+	$(CC) $(CFLAGS) $^ -c -o $@
 
 $(ARR) : $(ARR_OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
@@ -18,12 +21,13 @@ $(ARR) : $(ARR_OBJS)
 $(LLST) : $(LLST_OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-%.o : %.c
-	$(CC) $(CFLAGS) $^ -c $@
-
 clean : 
 	rm -rf $(ARR_OBJS) $(LLST_OBJS)
 
 fclean :
 	make clean;
 	rm -rf $(ARR) $(LLST)
+
+re :
+	make fclean
+	make all
