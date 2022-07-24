@@ -13,7 +13,7 @@ LLST_OBJS = $(LLST_SRCS:.c=.o)
 all : $(ARR) $(LLST)
 
 %.o : %.c
-	$(CC) $(CFLAGS) $^ -c -o $@
+	$(CC) $(CFLAGS) $^ -c
 
 $(ARR) : $(ARR_OBJS)
 	$(CC) $(CFLAGS) $^ -o $@

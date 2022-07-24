@@ -27,6 +27,8 @@ void clearLinkedList(LinkedList* pList);
 int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList);
 
+ListNode *getLLLastElement(LinkedList *pList);
+
 #endif
 
 #ifndef _COMMON_LIST_DEF_
