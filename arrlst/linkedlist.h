@@ -1,6 +1,11 @@
 #ifndef _LINKEDLIST_
 #define _LINKEDLIST_
 
+#include <stdlib.h>
+#include <printf.h>
+#include <string.h>
+#include <errno.h>
+
 typedef struct ListNodeType
 {
 	int data;
@@ -9,8 +14,8 @@ typedef struct ListNodeType
 
 typedef struct LinkedListType
 {
-	int currentElementCount;	// 현재 저장된 원소의 개수
-	ListNode headerNode;		// 헤더 노드(Header Node)
+	int currentElementCount;	// ???? ?????? ?????? ????
+	ListNode headerNode;		// ???? ????(Header Node)
 } LinkedList;
 
 LinkedList* createLinkedList();
@@ -21,6 +26,7 @@ ListNode* getLLElement(LinkedList* pList, int position);
 void clearLinkedList(LinkedList* pList);
 int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList);
+
 #endif
 
 #ifndef _COMMON_LIST_DEF_

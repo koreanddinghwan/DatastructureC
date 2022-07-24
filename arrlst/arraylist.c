@@ -1,4 +1,5 @@
 #include "arraylist.h"
+#include <stdlib.h>
 #include <string.h>
 
 ArrayList* createArrayList(int maxElementCount)
@@ -46,16 +47,14 @@ int isArrayListFull(ArrayList* pList)
 //java ArrayList.add 참고.
 //https://www.tutorialspoint.com/java/util/arraylist_add_index.htm
 //C에선 메서드오버로딩을 지원하지 않으므로, position 을 flag삼아야함
-//배열이 꽉차면, 크기를 키워서 재할당을 해줘야하는데, 이중포인터로 받아오지 않기에 이는 불가능.
-//배열이 꽉찬상태에서 position이 0과 maxElementCount 사이라면, replace연산.
+//배열꽉차면 realloc, size+1;
 //만약 position == -1 => pushback
-
 
 int addALElement(ArrayList* pList, int position, ArrayListNode element)
 {
 	if (!pList)
 		exit(EFAULT);
-	if (position < -1 || position > pList->maxElementCount)
+	if (position < -1 || position >= pList->maxElementCount)
 	{
 		printf("index out of range\n");
 		return (FALSE);
@@ -66,36 +65,32 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 		return (FALSE);
 	}
 
-////////
+	if (isArrayListFull(pList) == TRUE)
+	{
+		//realloc?
+		printf("reallocation memory...\n");
+		ArrayListNode *tmp = pList->pElement;
+		pList->pElement = realloc(pList->pElement,  sizeof(ArrayListNode) * (pList->maxElementCount + 1));
+		if (!pList->pElement)
+		{
+			free(tmp);
+			exit(ENOMEM);
+		}
+		pList->maxElementCount++;
+	}
+
 	if (position == -1)
 	{
-		if (isArrayListFull(pList) == TRUE)
-		{
-			printf("index is -1 and full, nothing to do\n");
-			return (FALSE);
-		}
 		//pushback
 		memcpy(pList->pElement + pList->currentElementCount++, &element, sizeof(ArrayListNode));
 		return (TRUE);
 	}
-	else
-	{
-		if (isArrayListFull(pList) == FALSE)
-		{
-			//insert
-			for (int i = position; position < pList->currentElementCount; i++)
-				memmove(pList->pElement + i + 1, pList->pElement + i, sizeof(ArrayListNode));
-			memcpy(pList->pElement + position, &element, sizeof(ArrayListNode));
-			pList->currentElementCount++;
-			return (TRUE);
-		}
-		else
-		{
-			//replace
-			memcpy(pList->pElement + position, &element, sizeof(ArrayListNode));
-			return (TRUE);
-		}
-	}
+
+	//insert
+	memmove(pList->pElement + position + 1, pList->pElement + position, sizeof(ArrayListNode) * (pList->currentElementCount - (position)));
+	memcpy(pList->pElement + position, &element, sizeof(ArrayListNode));
+	pList->currentElementCount++;
+	return (TRUE);
 }
 
 int removeALElement(ArrayList* pList, int position)
@@ -110,6 +105,18 @@ int removeALElement(ArrayList* pList, int position)
 	for (int i = position; i < pList->currentElementCount - 1; i++)
 		memmove(pList->pElement + i, pList->pElement + i + 1, sizeof(ArrayListNode));
 	pList->currentElementCount--;
+	if (pList->currentElementCount < pList->maxElementCount / 2)
+	{
+		printf("reacllocation size down\n");
+		ArrayListNode *tmp = pList->pElement;
+		pList->pElement = realloc(pList->pElement, sizeof(ArrayListNode) * (pList->maxElementCount / 2));
+		if (!pList->pElement)
+		{
+			free(tmp);
+			exit(ENOMEM);
+		}
+		pList->maxElementCount = pList->maxElementCount / 2;
+	}
 	return (TRUE);
 }
 
@@ -118,7 +125,10 @@ ArrayListNode* getALElement(ArrayList* pList, int position)
 	if (!pList)
 		exit(EFAULT);
 	if (position >= pList->currentElementCount || position < 0)
+	{
+		printf("get index out of range\n");
 		return (NULL);
+	}
 	return (pList->pElement + position);
 }
 
@@ -144,4 +154,11 @@ int getArrayListLength(ArrayList* pList)
 	if (!pList)
 		exit(EFAULT);;
 	return (pList->currentElementCount);
+}
+
+int getArrayListMaxLength(ArrayList* pList)
+{
+	if (!pList)
+		exit(EFAULT);;
+	return (pList->maxElementCount);
 }
