@@ -60,9 +60,11 @@ int addDLElement(DoublyList* pList, int position, DoublyListNode element)
 	else
 	{
 		//insert
-		DoublyListNode *positionNode = getDLElement(pList, position);
-		DoublyListNode *lNode = getDLElement(pList, position - 1);
+		DoublyListNode *positionNode;
+		DoublyListNode *lNode;
 
+		lNode = getDLElement(pList, position - 1);
+		positionNode = getDLElement(pList, position);
 		new->pRLink = positionNode;
 		positionNode->pLLink = new;
 		if (lNode)
@@ -107,9 +109,11 @@ int removeDLElement(DoublyList* pList, int position)
 
 void clearDoublyList(DoublyList* pList)
 {
+	int j;
+
 	if (!pList)
 		exit(EFAULT);
-	int j = pList->currentElementCount;
+	j = pList->currentElementCount;
 	for (int i = 0; i < j; i++)
 		removeDLElement(pList, 0);
 	pList->currentElementCount = 0;
@@ -124,6 +128,8 @@ int getDoublyListLength(DoublyList* pList)
 
 DoublyListNode* getDLElement(DoublyList* pList, int position)
 {
+	DoublyListNode *cur;
+
 	if (!pList)
 		exit(EFAULT);
 	
@@ -133,7 +139,6 @@ DoublyListNode* getDLElement(DoublyList* pList, int position)
 		return (pList->headerNode.pRLink);
 	else if (position == pList->currentElementCount - 1)
 		return (pList->headerNode.pLLink);
-	DoublyListNode *cur;
 	if (position < pList->currentElementCount / 2)
 	{
 		cur = pList->headerNode.pRLink;
@@ -165,4 +170,32 @@ void displayDoublyList(DoublyList* pList)
 		cur=cur->pRLink;
 	}
 	printf("||||||||||||||||\n");
+}
+
+void iteratorDleContent(DoublyList *pList, void (*f)(void *))
+{
+	int i;
+	int j;
+
+	if (!pList)
+		exit(EFAULT);
+	i = 0;
+	j = pList->currentElementCount;
+	DoublyListNode *cur = pList->headerNode.pRLink;
+	while (i < j)
+	{
+		f(cur->content);
+		i++;
+	}
+}
+
+DoublyListNode *newDleNode(void *content)
+{
+	DoublyListNode *new;
+
+	new = calloc(1, sizeof(DoublyListNode));
+	if (!new)
+		exit (ENOMEM);
+	new->content = content;
+	return (new);
 }

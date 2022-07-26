@@ -27,9 +27,9 @@ int addLLElement(LinkedList* pList, int position, ListNode element)
 	}
 
 	ListNode *new = malloc(sizeof(ListNode) * 1);
-	memcpy(new, &element, sizeof(ListNode));
 	if (!new)
 		exit(ENOMEM);
+	memcpy(new, &element, sizeof(ListNode));
 	new->pLink = NULL;
 	if (position == -1 || position == pList->currentElementCount)
 	{
@@ -88,8 +88,9 @@ void clearLinkedList(LinkedList* pList)
 	if (!pList)
 		exit(EFAULT);
 
-	for (int i = 0; i < pList->currentElementCount; i++)
-		removeLLElement(pList, i);
+	int j = pList->currentElementCount;
+	for (int i = 0; i < j; i++)
+		removeLLElement(pList, 0);
 	pList->currentElementCount = 0;
 	pList->headerNode.pLink = NULL;
 }
@@ -107,18 +108,4 @@ void deleteLinkedList(LinkedList* pList)
 		exit(EFAULT);
 	clearLinkedList(pList);
 	free(pList);
-}
-
-ListNode *getLLLastElement(LinkedList *pList)
-{
-	if (!pList)
-		exit(EFAULT);
-	ListNode *cur = pList->headerNode.pLink;
-	if (!cur)
-		return (&(pList->headerNode));
-	while (cur->pLink)
-	{
-		cur = cur->pLink;
-	}
-	return (cur);
 }

@@ -1,6 +1,13 @@
 #include "arraylist.h"
 #include <stdio.h>
 
+int getArrayListMaxLength(ArrayList* pList)
+{
+	if (!pList)
+		exit(EFAULT);;
+	return (pList->maxElementCount);
+}
+
 int main(void)
 {
 	{
@@ -76,5 +83,7 @@ int main(void)
 	printf("is full?: %d\n", isArrayListFull(pList));
 	printf("max length : %d\n", getArrayListMaxLength(pList));
 	}
+	while (1)
+		;
 	return 0;
 };

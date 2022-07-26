@@ -9,8 +9,11 @@
 typedef struct DoublyListNodeType
 {
 	int data;
+	float coef;
+	int degree;
 	struct DoublyListNodeType* pLLink;
 	struct DoublyListNodeType* pRLink;
+	void *content;
 } DoublyListNode;
 
 typedef struct DoublyListType
@@ -27,6 +30,9 @@ void clearDoublyList(DoublyList* pList);
 int getDoublyListLength(DoublyList* pList);
 DoublyListNode* getDLElement(DoublyList* pList, int position);
 void displayDoublyList(DoublyList* pList);
+
+DoublyListNode *newDleNode(void *content);
+void iteratorDle(DoublyList* pList, void (*f)(void *));
 
 #endif
 

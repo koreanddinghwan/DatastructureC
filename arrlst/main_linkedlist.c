@@ -15,6 +15,20 @@ void displayLLElement(LinkedList *pList)
 	}
 }
 
+ListNode *getLLLastElement(LinkedList *pList)
+{
+	if (!pList)
+		exit(EFAULT);
+	ListNode *cur = pList->headerNode.pLink;
+	if (!cur)
+		return (&(pList->headerNode));
+	while (cur->pLink)
+	{
+		cur = cur->pLink;
+	}
+	return (cur);
+}
+
 int main(void)
 {
 	{
@@ -55,7 +69,9 @@ int main(void)
 	displayLLElement(pList);
 
 
-		deleteLinkedList(pList);
+	deleteLinkedList(pList);
 	}
+	while (1)
+		;
 	return 0;
 }

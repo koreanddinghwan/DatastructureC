@@ -70,13 +70,13 @@ int addALElement(ArrayList* pList, int position, ArrayListNode element)
 		//realloc?
 		printf("reallocation memory...\n");
 		ArrayListNode *tmp = pList->pElement;
-		pList->pElement = realloc(pList->pElement,  sizeof(ArrayListNode) * (pList->maxElementCount + 1));
+		pList->pElement = realloc(pList->pElement,  sizeof(ArrayListNode) * (pList->maxElementCount * 2));
 		if (!pList->pElement)
 		{
 			free(tmp);
 			exit(ENOMEM);
 		}
-		pList->maxElementCount++;
+		pList->maxElementCount *= 2;
 	}
 
 	if (position == -1)
@@ -105,6 +105,7 @@ int removeALElement(ArrayList* pList, int position)
 	for (int i = position; i < pList->currentElementCount - 1; i++)
 		memmove(pList->pElement + i, pList->pElement + i + 1, sizeof(ArrayListNode));
 	pList->currentElementCount--;
+/////////////////////////
 	if (pList->currentElementCount < pList->maxElementCount / 2)
 	{
 		printf("reacllocation size down\n");
@@ -154,11 +155,4 @@ int getArrayListLength(ArrayList* pList)
 	if (!pList)
 		exit(EFAULT);;
 	return (pList->currentElementCount);
-}
-
-int getArrayListMaxLength(ArrayList* pList)
-{
-	if (!pList)
-		exit(EFAULT);;
-	return (pList->maxElementCount);
 }
