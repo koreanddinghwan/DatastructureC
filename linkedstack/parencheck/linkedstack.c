@@ -37,6 +37,7 @@ StackNode* popLS(LinkedStack* pStack)
 	if (!pStack)
 		exit(EFAULT);
 
+
 	if (isLinkedStackEmpty(pStack) == TRUE)
 		return (NULL);
 	else
