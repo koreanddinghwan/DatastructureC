@@ -1,5 +1,4 @@
 #include "linkedstack.h"
-#include <stdlib.h>
 
 LinkedStack* createLinkedStack()
 {
@@ -20,11 +19,13 @@ int pushLS(LinkedStack* pStack, StackNode element)
 
 	memcpy(rtn, &element, sizeof(StackNode));
 	if (pStack->currentElementCount == 0)
+	{
 		pStack->pTopElement = rtn;
+		rtn->pLink = NULL;
+	}
 	else
 	{
-		StackNode *beforetop = pStack->pTopElement;
-		rtn->pLink = beforetop;
+		rtn->pLink = pStack->pTopElement;
 		pStack->pTopElement = rtn;
 	}
 	pStack->currentElementCount++;

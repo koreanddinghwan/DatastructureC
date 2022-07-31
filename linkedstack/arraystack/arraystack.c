@@ -10,12 +10,13 @@ ArrayStack* createArrayStack(unsigned int maxElementCount)
 		exit(ENOMEM);
 
 	rtn->pTopElement = calloc(maxElementCount, sizeof(StackElement));
+	rtn->maxElementCount = maxElementCount;
 	if (!rtn->pTopElement)
 		exit(ENOMEM);
 	return (rtn);
 }
 
-int pushLS(ArrayStack* pStack, StackElement element)
+int pushAS(ArrayStack* pStack, StackElement element)
 {
 	if (!pStack)
 		exit(EFAULT);
@@ -24,14 +25,13 @@ int pushLS(ArrayStack* pStack, StackElement element)
 		return (FALSE);
 	else
 	{
-		memmove(pStack->pTopElement + 1, pStack->pTopElement, sizeof(StackElement) * pStack->currentElementCount);
-		memcpy(pStack->pTopElement, &element, sizeof(StackElement));
+		memcpy(pStack->pTopElement + pStack->currentElementCount, &element, sizeof(StackElement));
 		pStack->currentElementCount++;
 		return (TRUE);
 	}
 }
 
-StackElement* popLS(ArrayStack* pStack)
+StackElement* popAS(ArrayStack* pStack)
 {
 	if (!pStack)
 		exit(EFAULT);
@@ -40,15 +40,13 @@ StackElement* popLS(ArrayStack* pStack)
 		return (NULL);
 	else
 	{
-		StackElement* rtn = pStack->pTopElement;
-
-
+		StackElement* rtn = pStack->pTopElement + pStack->currentElementCount - 1;
 		pStack->currentElementCount--;
 		return (rtn);
 	}
 }
 
-StackElement* peekLS(ArrayStack* pStack)
+StackElement* peekAS(ArrayStack* pStack)
 {
 	if (!pStack)
 		exit(EFAULT);
@@ -56,7 +54,7 @@ StackElement* peekLS(ArrayStack* pStack)
 	if (isArrayStackEmpty(pStack) == TRUE)
 		return (NULL);
 	else
-		return (pStack->pTopElement);
+		return (pStack->pTopElement + pStack->currentElementCount - 1);
 }
 
 void deleteArrayStack(ArrayStack* pStack)

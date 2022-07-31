@@ -18,9 +18,9 @@ typedef struct ArrayStackType
 } ArrayStack;
 
 ArrayStack* createArrayStack(unsigned int n);
-int pushLS(ArrayStack* pStack, StackElement element);
-StackElement* popLS(ArrayStack* pStack);
-StackElement* peekLS(ArrayStack* pStack);
+int pushAS(ArrayStack* pStack, StackElement element);
+StackElement* popAS(ArrayStack* pStack);
+StackElement* peekAS(ArrayStack* pStack);
 void deleteArrayStack(ArrayStack* pStack);
 int isArrayStackFull(ArrayStack* pStack);
 int isArrayStackEmpty(ArrayStack* pStack);
