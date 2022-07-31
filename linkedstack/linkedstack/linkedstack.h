@@ -1,6 +1,10 @@
 #ifndef _LINKED_STACK_
 #define _LINKED_STACK_
 
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+
 typedef struct StackNodeType
 {
 	char data;
@@ -9,8 +13,8 @@ typedef struct StackNodeType
 
 typedef struct LinkedStackType
 {
-	int currentElementCount;	// 현재 원소의 개수
-	StackNode* pTopElement;		// Top 노드의 포인터
+	int currentElementCount;	// ???? ?????? ????
+	StackNode* pTopElement;		// Top ?????? ??????
 } LinkedStack;
 
 LinkedStack* createLinkedStack();
