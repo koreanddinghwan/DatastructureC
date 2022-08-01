@@ -37,6 +37,7 @@ int inStackPrecedence(Precedence oper);
 int outStackPrecedence(Precedence oper);
 void printToken(ExprToken element);
 
-ExprToken* splitTokens(char *str);
+ExprToken* splitToken(char *str, int *i);
+char	**ft_split(char const *s, char c);
 
 #endif

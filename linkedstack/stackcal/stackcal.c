@@ -51,15 +51,70 @@ int pushLSExprToken(LinkedStack* pStack, ExprToken data)
 
 void convertInfixToPostfix(ExprToken *pExprTokens, int tokenCount)
 {
-	ExprToken *cur = calloc(tokenCount, sizeof(ExprToken));
-	if (!cur)
-		exit(ENOMEM);
+	LinkedStack *instack = createLinkedStack();
+	LinkedStack *outstack = createLinkedStack();
+	StackNode *poped;
+	int parens = 0;
 
-	memcpy(cur, pExprTokens, sizeof(ExprToken) * tokenCount);
-	int i = 0;
-	while (i < tokenCount)
+	for (int i = 0; i < tokenCount; i++)
 	{
-		i++;
+		if (pExprTokens[i].type == operand)//피연산자
+			pushLSExprToken(outstack, pExprTokens[i]);
+		else if (pExprTokens[i].type == lparen)//(
+		{
+			pushLSExprToken(instack, pExprTokens[i]);
+			parens++;
+		}
+		else if (pExprTokens[i].type == rparen)//)
+		{
+			parens++;
+			while (peekLS(instack)->data.type != lparen)//instack top이 (까지
+			{
+				poped = popLS(instack);
+				pushLSExprToken(outstack, poped->data);
+				free(poped);
+			}
+			poped = popLS(instack);//( pop
+			free(poped);
+		}
+		else//+, - * /
+		{
+			if (isLinkedStackEmpty(instack) == TRUE)//instack이 empty
+				pushLSExprToken(instack, pExprTokens[i]);
+			else
+			{
+				while (instack->currentElementCount > 0)
+				{
+					if (inStackPrecedence(peekLS(instack)->data.type) >= inStackPrecedence(pExprTokens[i].type))
+					{
+						poped = popLS(instack);
+						pushLSExprToken(outstack, poped->data);
+						free(poped);
+					}
+					else
+						break ;
+				}
+				pushLSExprToken(instack, pExprTokens[i]);
+			}
+		}
+	}
+	while (isLinkedStackEmpty(instack) == FALSE)
+	{
+		poped = popLS(instack);
+		pushLSExprToken(outstack, poped->data);
+		free(poped);
+	}
+
+
+	//paste to original pExprTokens
+	tokenCount -= parens;
+	tokenCount--;
+	while (tokenCount >= 0)
+	{
+		poped = popLS(outstack);
+		pExprTokens[tokenCount] = poped->data;
+		tokenCount--;
+		free(poped);
 	}
 }
 
@@ -67,7 +122,7 @@ int inStackPrecedence(Precedence oper)
 {
 	switch (oper)
 	{
-		case lparen : 
+		case rparen : 
 			return (4);
 		case times :
 			return (3);
@@ -77,7 +132,7 @@ int inStackPrecedence(Precedence oper)
 			return (2);
 		case minus :
 			return (2);
-		case rparen :
+		case lparen :
 			return (1);
 		default:
 			break ;
@@ -111,7 +166,7 @@ void printToken(ExprToken element)
 {
 	if (element.type == operand)
 	{
-		printf("%f ", element.value);
+		printf("%.2f ", element.value);
 		return ;
 	}
 	else
