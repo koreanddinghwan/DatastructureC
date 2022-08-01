@@ -5,9 +5,30 @@
 #include <errno.h>
 #include <string.h>
 
+#ifndef EXPRTOK
+# define EXPRTOK
+
+typedef enum PrecedenceType
+{
+	lparen,
+	rparen,
+	times,
+	divide,
+	plus,
+	minus,
+	operand
+} Precedence;
+
+typedef struct ExprTokenType
+{
+	float value;
+	Precedence type;
+} ExprToken;
+#endif
+
 typedef struct StackNodeType
 {
-	char data;
+	ExprToken data;
 	struct StackNodeType* pLink;
 } StackNode;
 

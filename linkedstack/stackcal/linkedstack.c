@@ -72,6 +72,7 @@ void deleteLinkedStack(LinkedStack* pStack)
 	while (cur)
 	{
 		next = cur->pLink;
+		//free function pointer usage
 		free(cur);
 		cur = next;
 	}

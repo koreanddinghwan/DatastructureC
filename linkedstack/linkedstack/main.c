@@ -24,7 +24,9 @@ void test1(void)
 	tmp.data = 'd';
 	pushLS(stack, tmp);
 	printstack(stack);
-	printf("pop : %c\n", popLS(stack)->data);
+	StackNode *poped = popLS(stack);
+	printf("pop : %c\n", poped->data);
+	free(poped);
 	printstack(stack);
 	deleteLinkedStack(stack);
 }

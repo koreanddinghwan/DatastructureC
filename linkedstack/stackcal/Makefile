@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 DEBUGS = -fsanitize=address
 
-SRCS = stackcal.c main.c
+SRCS = stackcal.c main.c linkedstack.c
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)
