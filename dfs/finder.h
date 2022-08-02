@@ -3,9 +3,7 @@
 
 #include "linkedstack.h"
 #include "mapdef.h"
-#include "libft/libft.h"
 #include "utils.h"
-
 #include <printf.h>
 
 extern int map[WIDTH][HEIGHT];

@@ -39,15 +39,14 @@ void finder(int *curpos, int exitpos[2], LinkedStack *stack)
 		printf("GAME END\n");
 		return ;
 	}
-	//
-	while (checkPath(curpos, stack) == FALSE && (!isLinkedStackEmpty(stack)))
+	while ((!isLinkedStackEmpty(stack)) && checkPath(curpos, stack) == FALSE)
 	{
 		poped = popLS(stack);
 		moveBack(curpos, poped);
 		map[poped->data.y][poped->data.x] = VISIT;
 		free(poped);
 	}
-	if (isLinkedStackEmpty(stack) == TRUE)
+	if (isLinkedStackEmpty(stack) == TRUE) //위의 반복문에서 스택이 빈 경우, 길이 없다는 의미
 	{
 		printf("길 없어용\n");
 		return ;
