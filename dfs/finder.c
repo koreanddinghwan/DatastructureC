@@ -1,5 +1,4 @@
 #include "finder.h"
-#include "utils.h"
 
 int isExitNow(int *curpos, int exitpos[2])
 {
