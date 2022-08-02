@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 DEBUGS = -fsanitize=address
 
-SRCS = linkedstack.c main.c finder.c
+SRCS = linkedstack.c main.c finder.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME)
