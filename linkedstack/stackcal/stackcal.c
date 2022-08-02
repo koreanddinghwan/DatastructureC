@@ -38,6 +38,7 @@ void calcExpr(ExprToken *pExprTokens, int tokenCount)
 	StackNode *result = popLS(instack);
 	printf("result is %.2f\n", result->data.value);
 	free(result);
+	deleteLinkedStack(instack);
 }
 
 int pushLSExprToken(LinkedStack* pStack, ExprToken data)
@@ -116,6 +117,8 @@ void convertInfixToPostfix(ExprToken *pExprTokens, int tokenCount)
 		tokenCount--;
 		free(poped);
 	}
+	deleteLinkedStack(instack);
+	deleteLinkedStack(outstack);
 }
 
 int inStackPrecedence(Precedence oper)

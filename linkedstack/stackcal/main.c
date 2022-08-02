@@ -9,6 +9,8 @@ int main(int ac, char **av)
 	convertInfixToPostfix(tokens, i);
 	calcExpr(tokens, i);
 	for (int j = 0; j < i; j++)
-		printToken(tokens[j++]);
+		printToken(tokens[j]);
+	while (1)
+		;
 	return 0;
 }

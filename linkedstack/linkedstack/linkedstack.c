@@ -46,7 +46,7 @@ StackNode* popLS(LinkedStack* pStack)
 
 		rtn = pStack->pTopElement;
 		nextTop = rtn->pLink;
-
+		rtn->pLink = NULL;
 		pStack->pTopElement = nextTop;
 		pStack->currentElementCount--;
 		return (rtn);
