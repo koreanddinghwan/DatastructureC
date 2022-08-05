@@ -10,6 +10,12 @@ void printCurMap(int *curpos)
 		{
 			if (i == curpos[1] && j == curpos[0])
 				printf("P  ");
+			else if (map[i][j] == 1)
+				printf("🧱 ");
+			else if (map[i][j] == 0)
+				printf("🛣  ");
+			else if (map[i][j] == 2)
+				printf("⛔️ ");
 			else 
 				printf("%d  ", map[i][j]);
 		}
