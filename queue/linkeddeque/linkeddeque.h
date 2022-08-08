@@ -1,6 +1,10 @@
 #ifndef _LINKED_DEQUE_
 #define _LINKED_DEQUE_
 
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+
 typedef struct DequeNodeType
 {
 	char data;
@@ -12,7 +16,7 @@ typedef struct LinkedDequeType
 {
 	int currentElementCount;
 	DequeNode* pFrontNode;
-	DequeNode* pRearNode;		
+	DequeNode* pRearNode;
 } LinkedDeque;
 
 LinkedDeque* createLinkedDeque();

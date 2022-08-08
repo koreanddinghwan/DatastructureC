@@ -36,6 +36,7 @@ void test1(void)
 	tmp.data = 0;
 	enqueueAQ(que, tmp);
 	printQueueStatus(que);
+	deleteArrayQueue(que);
 }
 
 void test2(void)
@@ -218,6 +219,7 @@ void test4(void)
 	printQueueStatus(que);
 
 	dequeueAQ(que);
+	deleteArrayQueue(que);
 }
 
 int main(void)
