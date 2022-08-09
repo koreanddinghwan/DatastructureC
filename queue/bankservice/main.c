@@ -33,13 +33,14 @@ void launchBankProcess(LinkedDeque *pArrivalQueue)
 		}
 		if (!serviceNode)
 			serviceNode = processServiceNodeStart(t, pWaitQueue);
-
-		printf("below serviced customers\n");
-		if (serviceNode)
-			printSimCustomer(serviceNode->data);
 		if (isLinkedDequeEmpty(pWaitQueue) == FALSE)
 			pTotalWaitTime++;
 		t++;
+
+
+		printf("below serviced customer\n");
+		if (serviceNode)
+			printSimCustomer(serviceNode->data);
 		printReport(pWaitQueue, pServiceUserCount, pTotalWaitTime);
 		printf("=========================================\n");
 		printf("=========================================\n\n\n");
