@@ -15,6 +15,7 @@ int map[WIDTH][HEIGHT] =
 	{1, 0, 1, 0, 0, 1, 0, E},
 };
 
+
 void initData(int *curpos, int *exitpos, StackNode *tmp, LinkedStack **stack)
 {
 

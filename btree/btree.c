@@ -1,6 +1,6 @@
 #include "btree.h"
 #include "linkedstack.h"
-
+#include <stdint.h>
 BinTreeNode *makeNewNodeBT(BinTreeNode element)
 {
 	BinTreeNode *rtn;
@@ -178,6 +178,8 @@ void deleteBinTreeNode(BinTree *root, BinTreeNode* pNode)
 
 void preorderTraversalBinTree(BinTreeNode *pNode, void (*fp)(Data))
 {
+	if (!pNode)
+		return ;
 	fp(pNode->data);
 	preorderTraversalBinTree(pNode->pLeftChild, fp);
 	preorderTraversalBinTree(pNode->pRightChild, fp);
@@ -185,6 +187,8 @@ void preorderTraversalBinTree(BinTreeNode *pNode, void (*fp)(Data))
 
 void inorderTraversalBinTree(BinTreeNode *pNode, void (*fp)(Data))
 {
+	if (!pNode)
+		return ;
 	inorderTraversalBinTree(pNode->pLeftChild, fp);
 	fp(pNode->data);
 	inorderTraversalBinTree(pNode->pRightChild, fp);
@@ -192,6 +196,8 @@ void inorderTraversalBinTree(BinTreeNode *pNode, void (*fp)(Data))
 
 void postorderTraversalBinTree(BinTreeNode *pNode, void (*fp)(Data))
 {
+	if (!pNode)
+		return ;
 	postorderTraversalBinTree(pNode->pLeftChild, fp);
 	postorderTraversalBinTree(pNode->pRightChild, fp);
 	fp(pNode->data);
