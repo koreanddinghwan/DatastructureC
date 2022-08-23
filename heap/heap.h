@@ -9,7 +9,7 @@
 #define ANSI_COLOR_RESET    "\x1b[0m"
 #include "vector.h"
 
-void heap_push_back(t_vector *vec, t_data data);
+void min_heap_push_back(t_vector *vec, t_data data);
 void swap_data(t_data *a, t_data *b);
 void min_heapify(t_vector *vec, int i);
 

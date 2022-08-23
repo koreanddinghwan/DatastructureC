@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-void heap_push_back(t_vector *vec, t_data data)
+void min_heap_push_back(t_vector *vec, t_data data)
 {
 	int i;
 
@@ -78,23 +78,23 @@ int main(void)
 	t_vector *vec = vector(5);
 
 	tmp.a = -1;
-	heap_push_back(vec, tmp);
+	min_heap_push_back(vec, tmp);
 	printvec(vec);
 	tmp.a = 10;
-	heap_push_back(vec, tmp);
+	min_heap_push_back(vec, tmp);
 	printvec(vec);
 
 	tmp.a = 6;
-	heap_push_back(vec, tmp);
+	min_heap_push_back(vec, tmp);
 	printvec(vec);
 	tmp.a = 2;
-	heap_push_back(vec, tmp);
+	min_heap_push_back(vec, tmp);
 	printvec(vec);
 	tmp.a = 1;
-	heap_push_back(vec, tmp);
+	min_heap_push_back(vec, tmp);
 	printvec(vec);
 	tmp.a = -10;
-	heap_push_back(vec, tmp);
+	min_heap_push_back(vec, tmp);
 	printvec(vec);
 
 	heap_get_min(vec);

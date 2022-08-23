@@ -40,6 +40,9 @@ void bst_insert(BinTreeNode **root, int key)
 	else
 		prev->pRightChild = node;
 	prev->data.height = max(prev->pLeftChild->data.key, prev->pRightChild->data.key) + 1;
+
+
+#ifdef AVL
 	//balancing
 
 	int balance = getBalance(prev);
@@ -62,6 +65,7 @@ void bst_insert(BinTreeNode **root, int key)
 		prev->pRightChild = rightRotate(prev->pRightChild);
 		leftRotate(prev);
 	}
+#endif
 }
 
 void bst_delete(BinTreeNode *prev, BinTreeNode **node, int key)
@@ -110,6 +114,8 @@ void bst_delete(BinTreeNode *prev, BinTreeNode **node, int key)
 			(*node)->data.key = tmpkey;
 		}
 	}
+
+#ifdef AVL
 	//balancing
 	if (!prev)
 		return ;
@@ -173,6 +179,7 @@ T2   T3                           T3   T4
 		rightRotate(prev->pRightChild);
 		leftRotate(prev);
 	}
+#endif
 }
 
 BinTreeNode *minNode(BinTreeNode *sbroot)
