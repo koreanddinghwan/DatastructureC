@@ -1,5 +1,6 @@
 #include "vector.h"
 #include <sys/errno.h>
+#include <printf.h>
 
 t_vector *vector(int capacity)
 {
@@ -84,3 +85,9 @@ t_data *vec_pop_back(t_vector *vec)
 	vec->m_curCnt--;
 	return (rtn);
 }
+
+void printvecdata(t_vector *vec)
+{
+	printf("cap : %d, curcnt : %d, frontvalue : %d, rear : %d\n", vec_maxsize(vec), vec_size(vec), vec_front(vec)->a, vec_back(vec)->a);
+}
+

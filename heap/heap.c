@@ -1,83 +1,55 @@
 #include "heap.h"
 #include "vector.h"
+#include <stdint.h>
+#include <stdlib.h>
 
 void heap_push_back(t_vector *vec, t_data data)
 {
+	int i;
 
+	vec_push_back(vec, data);
+	i = vec_size(vec) - 1;
+	printf("%d\n", i);
+	for (;i != 0 && (vec_data(vec)[(i - 1) / 2].a > vec_data(vec)[i].a); i = (i - 1) / 2)
+	{
+		swap_data(vec_data(vec) + i, vec_data(vec) + ((i - 1) / 2));
+	}
 }
 
-void make_heap(t_vector *vec)
+t_data heap_get_min(t_vector *vec)
 {
-	for (int i = 0; i < vec->m_curCnt; i++)
-		heapify_down(vec, i);//i : parent index
+	t_data rtn;
+
+	if (vec_size(vec) <= 0)
+	{
+		rtn.a = INT32_MAX;
+		return (rtn);
+	}
+	if (vec_size(vec) == 1)
+	{
+		return (*(vec_pop_back(vec)));
+	}
+
+	rtn = vec_data(vec)[0];
+	vec_data(vec)[0] = *vec_pop_back(vec);
+	min_heapify(vec, 0);
+	return (rtn);
 }
 
-void heapify_down(t_vector *vec, int i)
+void min_heapify(t_vector *vec, int i)
 {
-	int parentIndex = i;
-	int leftChildIndex = (i + 1) * 2 - 1;
-	int rightChildIndex = (i + 1) * 2 + 1 - 1;
+	int left = i * 2 + 1;
+	int right = i * 2 + 2;
+	int smallest = i;
 
-	t_data *parent;
-	t_data *leftChild;
-	t_data *rightChild;
-
-	parent = vec->m_elem + i;
-
-	if (leftChildIndex >= vec->m_curCnt)
-		leftChild = NULL;
-	else
-		leftChild = vec->m_elem + leftChildIndex;
-
-	if (rightChildIndex >= vec->m_curCnt)
-		rightChild = NULL;
-	else
-		rightChild = vec->m_elem + rightChildIndex;
-
-	//leaf
-	if (!leftChild && !rightChild)
-		return ;
-	else if (!leftChild)
+	if (left < vec_size(vec) && vec_data(vec)[left].a < vec_data(vec)[i].a)
+		smallest = left;
+	if (right < vec_size(vec) && vec_data(vec)[right].a < vec_data(vec)[smallest].a)
+		smallest = right;
+	if (smallest != i)
 	{
-		if (parent->a < rightChild->a)
-		{
-			swap_data(parent, rightChild);
-			heapify_down(vec, rightChildIndex);
-		}
-	}
-	else if (!rightChild)
-	{
-		if (parent->a < leftChild->a)
-		{
-			swap_data(parent, leftChild);
-			heapify_down(vec, leftChildIndex);
-		}
-	}//탈출!!
-	else if (parent->a >= leftChild->a && parent->a >= rightChild->a)
-	{
-		return ;
-	}
-	else
-	{
-		t_data *max;
-		if (leftChild->a > rightChild->a)
-		{
-			max = leftChild;
-			if (max->a > parent->a)
-			{
-				swap_data(parent, max);
-				heapify_down(vec, leftChildIndex);
-			}
-		}
-		else
-		{
-			max = rightChild;
-			if (max->a > parent->a)
-			{
-				swap_data(parent, max);
-				heapify_down(vec, rightChildIndex);
-			}
-		}
+		swap_data(vec_data(vec) + i, vec_data(vec) + smallest);
+		min_heapify(vec, smallest);
 	}
 }
 
@@ -90,33 +62,48 @@ void swap_data(t_data *a, t_data *b)
 	*a = tmp;
 }
 
-void heapify_up(t_vector *vec, int i)
+void printvec(t_vector *vec)
 {
-	int curIdx = i;
-	int siblingIdx;
-	if (curIdx % 2 == 0)
-		siblingIdx = i - 1;
-	else
-		siblingIdx = i + 1;
-	int parentIdx = i / 2;
+	printf(ANSI_COLOR_GREEN "======\n" ANSI_COLOR_RESET);
+	for (int i =0; i < vec_size(vec); i++)
+	{
+		printf("vec[%d]: %d\n", i, vec_data(vec)[i].a);
+	}
+	printf(ANSI_COLOR_GREEN "======\n" ANSI_COLOR_RESET);
+}
 
-	if (curIdx <= 0)
-		return ;
+int main(void)
+{
+	t_data tmp;
+	t_vector *vec = vector(5);
 
-	t_data *parent;
-	t_data *curChild;
-	t_data *siblingChild;
+	tmp.a = -1;
+	heap_push_back(vec, tmp);
+	printvec(vec);
+	tmp.a = 10;
+	heap_push_back(vec, tmp);
+	printvec(vec);
 
-	parent = vec->m_elem + parentIdx;
-	
-	if (curIdx >= vec->m_curCnt)
-		curChild = NULL;
-	else
-		curChild = vec->m_elem + curIdx;
+	tmp.a = 6;
+	heap_push_back(vec, tmp);
+	printvec(vec);
+	tmp.a = 2;
+	heap_push_back(vec, tmp);
+	printvec(vec);
+	tmp.a = 1;
+	heap_push_back(vec, tmp);
+	printvec(vec);
+	tmp.a = -10;
+	heap_push_back(vec, tmp);
+	printvec(vec);
 
-	if (siblingIdx >= vec->m_curCnt)
-		siblingChild = NULL;
-	else
-		siblingChild = vec->m_elem + siblingIdx;
+	heap_get_min(vec);
+	printvec(vec);
 
+	heap_get_min(vec);
+	printvec(vec);
+	heap_get_min(vec);
+	printvec(vec);
+	heap_get_min(vec);
+	printvec(vec);
 }

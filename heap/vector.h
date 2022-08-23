@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <errno.h>
+#include <printf.h>
 
 typedef struct s_data
 {
@@ -34,5 +35,7 @@ void vec_resize(t_vector *vec, int s);
 void vec_push_back(t_vector *vec, t_data data);
 t_data *vec_pop_back(t_vector *vec);
 
+
+void printvecdata(t_vector *vec);
 
 #endif
