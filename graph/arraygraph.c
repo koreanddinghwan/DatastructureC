@@ -1,6 +1,5 @@
 #include "arraygraph.h"
-#include <stdlib.h>
-#include <sys/errno.h>
+
 
 ArrayGraph* createArrayGraph(int maxVertexCount)
 {
@@ -54,6 +53,7 @@ ArrayGraph* createArrayDirectedGraph(int maxVertexCount)
 
 void deleteArrayGraph(ArrayGraph* pGraph)
 {
+
 	for (int i = 0; i < pGraph->maxVertexCount; i++)
 		free(pGraph->ppAdjEdge[i]);
 	free(pGraph->ppAdjEdge);

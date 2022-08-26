@@ -1,57 +1,46 @@
 #ifndef _GRAPH_ADJLIST_
 #define _GRAPH_ADJLIST_
 
+#include "linkedlist.h"
+
 typedef struct LinkedGraphType
 {
-	int maxVertexCount;		// ÃÖ´ë ³ëµå °³¼ö
-	int currentVertexCount;	// ÇöÀç »ç¿ëµÇ´Â ³ëµåÀÇ °³¼ö
-	int currentEdgeCount;	// ÇöÀç °£¼±ÀÇ °³¼ö.
-	int graphType;			// ±×·¡ÇÁ Á¾·ù: 1-Undirected, 2-Directed
-	LinkedList** ppAdjEdge;	// °£¼± ÀúÀåÀ» À§ÇÑ ¿¬°á ¸®½ºÆ® (Æ÷ÀÎÅÍ)ÀÇ ¹è¿­
-	int *pVertex;			// ³ëµå ÀúÀåÀ» À§ÇÑ 1Â÷¿ø ¹è¿­
+	int maxVertexCount;		// ?Ö´? ???? ????
+	int currentVertexCount;	// ???? ?????Ç´? ?????? ????
+	int currentEdgeCount;	// ???? ?????? ????.
+	int graphType;			// ?×·??? Á¾??: 1-Undirected, 2-Directed
+	LinkedList** ppAdjEdge;	// ???? ????À» À§?? ???? ????Æ® (??????)?? ?è¿­
+	int *pVertex;			// ???? ????À» À§?? 1???? ?è¿­
 } LinkedGraph;
 
-// ±×·¡ÇÁ »ý¼º
 LinkedGraph* createLinkedGraph(int maxVertexCount);
 LinkedGraph* createLinkedDirectedGraph(int maxVertexCount);
 
-// ±×·¡ÇÁ »èÁ¦
 void deleteLinkedGraph(LinkedGraph* pGraph);
 
-// °ø¹é ±×·¡ÇÁ ¿©ºÎ ÆÇ´Ü
 int isEmptyLG(LinkedGraph* pGraph);
 
-// ³ëµå Ãß°¡
 int addVertexLG(LinkedGraph* pGraph, int vertexID);
 
-// °£¼± Ãß°¡
 int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, int weight);
 
-// ³ëµåÀÇ À¯È¿¼º Á¡°Ë.
 int checkVertexValid(LinkedGraph* pGraph, int vertexID);
 
-// ³ëµå Á¦°Å
 int removeVertexLG(LinkedGraph* pGraph, int vertexID);
 
-// °£¼± Á¦°Å
 int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
 void deleteGraphNode(LinkedList* pList, int delVertexID);
 int findGraphNodePosition(LinkedList* pList, int vertexID);
 
-// °£¼± °³¼ö ¹ÝÈ¯
 int getEdgeCountLG(LinkedGraph* pGraph);
 
-// ³ëµå °³¼ö ¹ÝÈ¯
 int getVertexCountLG(LinkedGraph* pGraph);
 
-// ÃÖ´ë ³ëµå °³¼ö ¹ÝÈ¯
 int getMaxVertexCountLG(LinkedGraph* pGraph);
 
-// ±×·¡ÇÁ Á¾·ù ¹ÝÈ¯.
 int getGraphTypeLG(LinkedGraph* pGraph);
 
-// ±×·¡ÇÁ Á¤º¸ Ãâ·Â
 void displayLinkedGraph(LinkedGraph* pGraph);
 #endif
 
@@ -66,6 +55,7 @@ void displayLinkedGraph(LinkedGraph* pGraph);
 
 #define SUCCESS				1
 #define FAIL				0
+#define NOTFOUND           -1
 
 #define GRAPH_UNDIRECTED	1
 #define GRAPH_DIRECTED		2
