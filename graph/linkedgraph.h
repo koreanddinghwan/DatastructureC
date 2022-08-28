@@ -3,6 +3,13 @@
 
 #include "linkedlist.h"
 
+#define ANSI_COLOR_RED      "\x1b[31m"
+#define ANSI_COLOR_GREEN    "\x1b[32m"
+#define ANSI_COLOR_YELLOW   "\x1b[33m"
+#define ANSI_COLOR_BLUE     "\x1b[34m"
+#define ANSI_COLOR_MAGENTA  "\x1b[35m"
+#define ANSI_COLOR_CYAN     "\x1b[36m"
+#define ANSI_COLOR_RESET    "\x1b[0m"
 typedef struct LinkedGraphType
 {
 	int maxVertexCount;		// ?ִ? ???? ????
@@ -30,7 +37,7 @@ int checkVertexValid(LinkedGraph* pGraph, int vertexID);
 int removeVertexLG(LinkedGraph* pGraph, int vertexID);
 
 int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID);
-void deleteGraphNode(LinkedList* pList, int delVertexID);
+int deleteGraphNode(LinkedList* pList, int delVertexID);
 int findGraphNodePosition(LinkedList* pList, int vertexID);
 
 int getEdgeCountLG(LinkedGraph* pGraph);
@@ -41,7 +48,7 @@ int getMaxVertexCountLG(LinkedGraph* pGraph);
 
 int getGraphTypeLG(LinkedGraph* pGraph);
 
-void displayLinkedGraph(LinkedGraph* pGraph);
+void displayLinkedGraph(LinkedGraph* pGraph, void (*fp)(ListNode));
 #endif
 
 #ifndef _COMMON_GRAPH_DEF_

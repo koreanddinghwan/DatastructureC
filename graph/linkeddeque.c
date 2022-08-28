@@ -15,10 +15,12 @@ int insertFrontLD(LinkedDeque* pDeque, DequeNode element)
 
 	if (!pDeque)
 		exit(EFAULT);
-	new  = calloc(1, sizeof(DequeNode));
+	new  = malloc(sizeof(DequeNode));
 	if (!new)
 		exit(ENOMEM);
 	memcpy(new, &element, sizeof(DequeNode));
+	new->pLLink = NULL;
+	new->pRLink = NULL;
 	if (isLinkedDequeEmpty(pDeque) == TRUE)
 	{
 		pDeque->pFrontNode = new;
@@ -40,10 +42,12 @@ int insertRearLD(LinkedDeque* pDeque, DequeNode element)
 
 	if (!pDeque)
 		exit(EFAULT);
-	new  = calloc(1, sizeof(DequeNode));
+	new  = malloc(sizeof(DequeNode));
 	if (!new)
 		exit(ENOMEM);
 	memcpy(new, &element, sizeof(DequeNode));
+	new->pRLink = NULL;
+	new->pLLink = NULL;
 	if (isLinkedDequeEmpty(pDeque) == TRUE)
 	{
 		pDeque->pFrontNode = new;
@@ -64,7 +68,7 @@ DequeNode* deleteFrontLD(LinkedDeque* pDeque)
 	DequeNode *rtn;
 
 	if (!pDeque)
-		exit(EFAULT);
+		return (NULL);
 	if (pDeque->currentElementCount == 0)
 		return (NULL);
 	rtn  = pDeque->pFrontNode;
@@ -140,24 +144,5 @@ int isLinkedDequeEmpty(LinkedDeque* pDeque)
 {
 	if (!pDeque)
 		exit(EFAULT);
-	if (pDeque->currentElementCount == 0)
-		return (TRUE);
-	else
-		return (FALSE);
-}
-
-void iterDeque(LinkedDeque *pDeque, void (*fp)(SimCustomer))
-{
-	DequeNode *begin;
-	int i = 0;
-
-	if (pDeque->currentElementCount == 0)
-		return ;
-	begin = pDeque->pFrontNode;
-	while (begin && i < pDeque->currentElementCount)
-	{
-		fp(begin->data);
-		begin = begin->pRLink;
-		i++;
-	}
+	return (pDeque->currentElementCount == 0);
 }

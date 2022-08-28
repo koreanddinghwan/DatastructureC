@@ -98,7 +98,7 @@ int addEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 		pos = findGraphNodePosition(pGraph->ppAdjEdge[toVertexID], fromVertexID);
 		if (pos != NOTFOUND)
 			return (FALSE);
-		addLLElement(pGraph->ppAdjEdge[fromVertexID], pos, elem);
+		addLLElement(pGraph->ppAdjEdge[toVertexID], pos, elem);
 		pGraph->currentEdgeCount++;
 	}
 	else
@@ -169,7 +169,12 @@ int removeVertexLG(LinkedGraph* pGraph, int vertexID)
 	if (checkVertexValid(pGraph,vertexID) == FALSE)
 		return (FALSE);
 
-
+	for (int i = 0; i < pGraph->maxVertexCount; i++)
+		removeEdgeLG(pGraph, vertexID, i);
+	for (int i = 0; i < pGraph->maxVertexCount; i++)
+		removeEdgeLG(pGraph, i, vertexID);
+	pGraph->currentVertexCount--;
+	pGraph->pVertex[vertexID] = NOT_USED;
 	return (TRUE);
 }
 
@@ -179,16 +184,30 @@ int removeEdgeLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID)
 			checkVertexValid(pGraph, toVertexID) == FALSE)
 		return (FALSE);
 
+	if (pGraph->graphType == GRAPH_UNDIRECTED)
+	{
+		if (deleteGraphNode(pGraph->ppAdjEdge[fromVertexID], toVertexID) == SUCCESS)
+			pGraph->currentEdgeCount--;
+		if (deleteGraphNode(pGraph->ppAdjEdge[toVertexID], fromVertexID) == SUCCESS)
+			pGraph->currentEdgeCount--;
+	}
+	else
+	{
+		if (deleteGraphNode(pGraph->ppAdjEdge[fromVertexID], toVertexID) == SUCCESS)
+			pGraph->currentEdgeCount--;
+	}
 	return (TRUE);
 }
 
 //vertex 가진 list의 node 삭제
-void deleteGraphNode(LinkedList* pList, int delVertexID)
+int deleteGraphNode(LinkedList* pList, int delVertexID)
 {
 	int pos = findGraphNodePosition(pList, delVertexID);
 
-	if (pos != NOTFOUND)
-		removeLLElement(pList, pos);
+	if (pos == NOTFOUND)
+		return (FAIL);
+	removeLLElement(pList, pos);
+	return (SUCCESS);
 }
 
 int findGraphNodePosition(LinkedList* pList, int vertexID)
@@ -237,4 +256,12 @@ int getGraphTypeLG(LinkedGraph* pGraph)
 		return (GRAPH_UNDIRECTED);
 }
 
-void displayLinkedGraph(LinkedGraph* pGraph);
+void displayLinkedGraph(LinkedGraph* pGraph, void (*fp)(ListNode))
+{
+	for (int i = 0; i < pGraph->maxVertexCount; i++)
+	{
+		printf("%d : ", i);
+		iteratorLLE(pGraph->ppAdjEdge[i], fp);
+		printf("\n");
+	}
+}

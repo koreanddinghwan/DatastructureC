@@ -5,19 +5,12 @@
 #include <printf.h>
 #include <string.h>
 #include <errno.h>
-#include <printf.h>
-
-#ifndef _LINKEDLIST_NODE
-# define _LINKEDLIST_NODE
 
 typedef struct ListNodeType
 {
-	int weight;
-	int vertexID;
+	int data;
 	struct ListNodeType* pLink;
 } ListNode;
-
-#endif
 
 typedef struct LinkedListType
 {
@@ -35,7 +28,7 @@ int getLinkedListLength(LinkedList* pList);
 void deleteLinkedList(LinkedList* pList);
 
 ListNode *getLLLastElement(LinkedList *pList);
-void iteratorLLE(LinkedList *pList, void (*fp)(ListNode));
+
 #endif
 
 #ifndef _COMMON_LIST_DEF_

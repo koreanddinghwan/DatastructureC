@@ -5,27 +5,9 @@
 #include <errno.h>
 #include <string.h>
 
-#ifndef SIM
-# define SIM
-typedef enum SimStatusType
-{
-	arrival,
-	start,
-	end,
-} SimStatus;
-typedef struct SimCustomerType
-{
-	SimStatus status;
-	int arrivalTime;
-	int serviceTime;
-	int startTime;
-	int endTime;
-} SimCustomer;
-#endif
-
 typedef struct DequeNodeType
 {
-	SimCustomer data;
+	int data;
 	struct DequeNodeType* pRLink;
 	struct DequeNodeType* pLLink;
 } DequeNode;
@@ -47,7 +29,6 @@ DequeNode* peekRearLD(LinkedDeque* pDeque);
 void deleteLinkedDeque(LinkedDeque* pDeque);
 int isLinkedDequeFull(LinkedDeque* pDeque);
 int isLinkedDequeEmpty(LinkedDeque* pDeque);
-void iterDeque(LinkedDeque *pDeque, void (*fp)(SimCustomer));
 
 #endif
 

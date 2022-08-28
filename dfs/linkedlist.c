@@ -12,8 +12,7 @@ LinkedList* createLinkedList(void)
 		exit(ENOMEM);
 	tmp->currentElementCount = 0;
 	tmp->headerNode.pLink = NULL;
-	tmp->headerNode.weight = 0;
-	tmp->headerNode.vertexID = -1;
+	tmp->headerNode.data = 0;
 	return (tmp);
 }
 
@@ -51,18 +50,6 @@ int addLLElement(LinkedList* pList, int position, ListNode element)
 	}
 	pList->currentElementCount++;
 	return (TRUE);
-}
-
-ListNode *getLLLastElement(LinkedList *pList)
-{
-	ListNode *node;
-
-	node = &pList->headerNode;
-	if (!node)
-		return (NULL);
-	while (node->pLink)
-		node = node->pLink;
-	return (node);
 }
 
 int removeLLElement(LinkedList* pList, int position)
@@ -121,16 +108,4 @@ void deleteLinkedList(LinkedList* pList)
 		exit(EFAULT);
 	clearLinkedList(pList);
 	free(pList);
-}
-
-void iteratorLLE(LinkedList *pList, void (*fp)(ListNode))
-{
-	ListNode *node;
-
-	node = pList->headerNode.pLink;
-	while (node)
-	{
-		fp(*node);
-		node = node->pLink;
-	}
 }
