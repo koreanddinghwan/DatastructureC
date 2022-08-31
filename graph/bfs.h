@@ -4,7 +4,7 @@
 #include "linkeddeque.h"
 #include "linkedgraph.h"
 
-void BFS(LinkedGraph *LG);
+void bfs(LinkedGraph *LG, int VertexID);
 
 #define VISITED 1
 

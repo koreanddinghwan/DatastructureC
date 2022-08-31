@@ -138,7 +138,7 @@ int addEdgewithWeightLG(LinkedGraph* pGraph, int fromVertexID, int toVertexID, i
 		pos = findGraphNodePosition(pGraph->ppAdjEdge[toVertexID], fromVertexID);
 		if (pos != NOTFOUND)
 			return (FALSE);
-		addLLElement(pGraph->ppAdjEdge[fromVertexID], pos, elem);
+		addLLElement(pGraph->ppAdjEdge[toVertexID], pos, elem);
 		pGraph->currentEdgeCount++;
 	}
 	else
@@ -254,6 +254,27 @@ int getGraphTypeLG(LinkedGraph* pGraph)
 		return (GRAPH_DIRECTED);
 	else
 		return (GRAPH_UNDIRECTED);
+}
+
+int getMinVertexID(ListNode *node)
+{
+	if (!node)
+		return (-1);
+
+	int curVertexID = node->vertexID;
+	int curWeight = node->weight;
+
+	node = node->pLink;
+	while (node)
+	{
+		if (node->weight < curWeight)
+		{
+			curVertexID = node->vertexID;
+			curWeight = node->weight;
+		}
+		node = node->pLink;
+	}
+	return (curVertexID);
 }
 
 void displayLinkedGraph(LinkedGraph* pGraph, void (*fp)(ListNode))

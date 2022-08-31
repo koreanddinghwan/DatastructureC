@@ -3,5 +3,6 @@
 
 #include "linkedgraph.h"
 
+void dfs(LinkedGraph *pGraph, int VertexID);
 
 #endif

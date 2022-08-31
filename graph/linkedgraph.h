@@ -46,6 +46,7 @@ int getVertexCountLG(LinkedGraph* pGraph);
 
 int getMaxVertexCountLG(LinkedGraph* pGraph);
 
+int getMinVertexID(ListNode *node);
 int getGraphTypeLG(LinkedGraph* pGraph);
 
 void displayLinkedGraph(LinkedGraph* pGraph, void (*fp)(ListNode));
@@ -59,6 +60,9 @@ void displayLinkedGraph(LinkedGraph* pGraph, void (*fp)(ListNode));
 
 #define USED				1
 #define NOT_USED			0
+
+#define VISITED 1
+#define NOT_VISITED 0
 
 #define SUCCESS				1
 #define FAIL				0

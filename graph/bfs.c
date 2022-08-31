@@ -92,7 +92,7 @@ void directed_test(void)
 	addEdgeLG(LG, 4, 5);
 	addEdgeLG(LG, 5, 3);
 	displayLinkedGraph(LG, printer);
-	bfs(LG, 1);
+	bfs(LG, 3);
 }
 
 int main(void)

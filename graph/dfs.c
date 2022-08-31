@@ -46,10 +46,10 @@ void undirected_test(void)
 	addVertexLG(LG, 5);
 	addVertexLG(LG, 5);
 
+	addEdgeLG(LG, 1, 2);
 	addEdgeLG(LG, 0, 1);
 	addEdgeLG(LG, 0, 2);
 	addEdgeLG(LG, 2, 3);
-	addEdgeLG(LG, 1, 2);
 	addEdgeLG(LG, 3, 4);
 	addEdgeLG(LG, 4, 5);
 	addEdgeLG(LG, 3, 5);
