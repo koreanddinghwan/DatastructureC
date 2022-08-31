@@ -25,7 +25,31 @@ LinkedGraph *CreateUndirectedWeight(void)
 	addEdgewithWeightLG(rtn, 3, 4, 1);
 	addEdgewithWeightLG(rtn, 3, 5, 5);
 	addEdgewithWeightLG(rtn, 4, 5, 6);
+
 	return (rtn);
+}
+
+void TestDijkstra(void)
+{
+	LinkedGraph *rtn;
+
+	rtn = createLinkedGraph(6);
+	addVertexLG(rtn, 0);
+	addVertexLG(rtn, 1);
+	addVertexLG(rtn, 2);
+	addVertexLG(rtn, 3);
+	addVertexLG(rtn, 4);
+	addVertexLG(rtn, 5);
+
+	addEdgewithWeightLG(rtn, 0, 1, 1);
+	addEdgewithWeightLG(rtn, 0, 2, 4);
+	addEdgewithWeightLG(rtn, 1, 2, 2);
+	addEdgewithWeightLG(rtn, 2, 3, 1);
+	addEdgewithWeightLG(rtn, 3, 4, 8);
+	addEdgewithWeightLG(rtn, 3, 5, 3);
+	addEdgewithWeightLG(rtn, 4, 5, 4);
+	
+	Dijkstra(rtn, 0);
 }
 
 int main(void)
@@ -40,4 +64,5 @@ int main(void)
 	printf("\n\n");
 	Prim(pGraph, 1);
 	printf("\n\n");
+	TestDijkstra();
 }

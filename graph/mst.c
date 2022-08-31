@@ -44,6 +44,11 @@ void Kruskal(LinkedGraph *origin)
 	}
 }
 
+
+
+
+
+//////////Prim
 typedef struct edge
 {
 	int from;
@@ -52,20 +57,27 @@ typedef struct edge
 	int VertexID;
 } EDGE;
 
-EDGE getMinEdgeNocycleInlst(ListNode *node, int *visited)
+EDGE getMinWeightEdgeList(LinkedList *list, int *visited)
 {
+	ListNode *node;
 	EDGE rtn;
 
-	rtn.weight = node->weight;
+	node = list->headerNode.pLink;
+	rtn.weight = INT32_MAX;
 	rtn.VertexID = node->vertexID;
-	node = node->pLink;
 	while (node)
 	{
-		printf("checking node %d, %d\n", node->weight, node->vertexID);
-		if ((node->weight <= rtn.weight) && (visited[node->vertexID] != VISITED))
+		if (visited[node->vertexID] == VISITED)
 		{
-			rtn.VertexID = node->vertexID;
+			node = node->pLink;
+			continue;
+		}
+		if (!node)
+			return (rtn);
+		if (rtn.weight >= node->weight)
+		{
 			rtn.weight = node->weight;
+			rtn.VertexID = node->vertexID;
 		}
 		node = node->pLink;
 	}
@@ -74,22 +86,25 @@ EDGE getMinEdgeNocycleInlst(ListNode *node, int *visited)
 
 EDGE getNocycleMinEdgeInVisited(LinkedGraph *origin, int *visited)
 {
+	int actualRoop = 0;
 	EDGE edge;
 	EDGE rtn;
 
 	for (int i = 0; i < origin->maxVertexCount; i++)
 	{
-		if (visited[i] != VISITED)
+		//list가 비어있으면 다음거로
+		if (origin->ppAdjEdge[i]->currentElementCount == 0)
 			continue;
-		edge = getMinEdgeNocycleInlst(origin->ppAdjEdge[i]->headerNode.pLink, visited);
-		if (i == 0)
-		{
-			rtn = edge;
+		//방문안했던 노드도 배제
+		if (visited[i] == FALSE)
 			continue;
-		}
-		if (edge.weight <= rtn.weight)
+		//방문했던 노드들의 헤더노드를 전달.
+		edge = getMinWeightEdgeList(origin->ppAdjEdge[i], visited);
+		if (actualRoop == 0)
 			rtn = edge;
-		printf("====%d, %d\n", rtn.weight, rtn.VertexID);
+		if (rtn.weight >= edge.weight)
+			rtn = edge;
+		actualRoop++;
 	}
 	return (rtn);
 }
@@ -100,20 +115,22 @@ int checkRecurEnd(int max, int *visited)
 
 	for (int i = 0; i < max; i++)
 	{
-		if (visited[i] == NOT_VISITED)
-			return (FALSE);
+		if (visited[i] == VISITED)
+			cnt++;
 	}
-	return (TRUE);
+	if (cnt == max)
+		return (TRUE);
+	else
+		return (FALSE);
 }
 
 void PrimUtil(LinkedGraph *origin, int *visited, int fromvertexID, int toVertexID)
 {
-	printf("call %d, %d ", fromvertexID, toVertexID);
+	visited[toVertexID] = VISITED;
+	printf(ANSI_COLOR_YELLOW"visited %d \n" ANSI_COLOR_RESET, toVertexID);
+
 	if (checkRecurEnd(origin->maxVertexCount, visited) == TRUE)
 		return ;
-
-	visited[toVertexID] = VISITED;
-	printf("visited %d ", toVertexID);
 	EDGE edge = getNocycleMinEdgeInVisited(origin, visited);
 	PrimUtil(origin, visited, toVertexID, edge.VertexID);
 }
@@ -124,9 +141,90 @@ void Prim(LinkedGraph *origin, int vertexID)
 	memset(visited, NOT_VISITED, sizeof(int) * origin->maxVertexCount);
 
 	visited[vertexID] = VISITED;
+	printf(ANSI_COLOR_YELLOW"visited %d \n" ANSI_COLOR_RESET, vertexID);
 	EDGE edge;
 
+	//visited한 vertext와 연결된 edge중 가중치 가장 작은 edge선택
 	edge = getNocycleMinEdgeInVisited(origin, visited);
-	printf("%d\n", edge.VertexID);
 	PrimUtil(origin, visited, vertexID, edge.VertexID);
+}
+
+/////////////////////////////////////
+///
+///
+
+void init(LinkedGraph *origin, int *visited, int *distance)
+{
+	ListNode *node;
+
+	for (int i = 0; i < origin->maxVertexCount; i++)
+		distance[i] = INT32_MAX;
+	memset(visited, NOT_VISITED, sizeof(int) * origin->maxVertexCount);
+}
+
+void updateDistance(int VertexID, LinkedGraph *origin, int *distance, int *visited)
+{
+	ListNode *node= origin->ppAdjEdge[VertexID]->headerNode.pLink;
+
+	while (node)
+	{
+		if (visited[node->vertexID] != VISITED && (node->weight + distance[VertexID] < distance[node->vertexID]))
+			distance[node->vertexID] = node->weight + distance[VertexID];
+		node = node->pLink;
+	}
+}
+
+int getMinDistIdx(int *distance, int *visited, LinkedGraph *origin)
+{
+	int minDist = INT32_MAX;
+	int minDistIdx = 0;
+
+	for (int i = 0;i < origin->maxVertexCount; i++)
+	{
+		//방문한 노드는 대상이 아님
+		if (visited[i] == VISITED)
+			continue;
+		//방문하지 않은 노드 중, 거리가 제일 짧은 것 선택
+		if (distance[i] < minDist)
+		{
+			minDist = distance[i];
+			minDistIdx = i;
+		}
+	}
+	return (minDistIdx);
+}
+
+void Dijkstra(LinkedGraph *origin, int VertexID)
+{
+	int visited[origin->maxVertexCount];
+	int distance[origin->maxVertexCount];
+	int curCnt = 0;
+
+	printf(ANSI_COLOR_BLUE"!!!Dijkstra!!!\n"ANSI_COLOR_RESET);
+	init(origin, visited, distance);
+	//최초vertexID의 거리는 0
+	distance[VertexID] = 0;
+	//vertex 방문처리
+	//visited가 모두 채워질때까지 반복
+	while (curCnt < origin->maxVertexCount)
+	{
+		//Vertex 방문처리
+		visited[VertexID] = VISITED;
+		//Vertex ID에 대해 연결된 노드들 거리 없데이트
+		updateDistance(VertexID, origin, distance, visited);
+		for (int i = 0; i < origin->maxVertexCount; i++)
+			printf("| %d |", distance[i]);
+		printf("\n");
+		//Distance배열에서 가장 작은 거리를 가진 값의 인덱스(Vertex) 추출
+		VertexID = getMinDistIdx(distance, visited, origin);
+		printf("next vertexID : %d \n", VertexID);
+		curCnt++;
+	}
+	for (int i = 0; i < origin->maxVertexCount; i++)
+		printf(ANSI_COLOR_BLUE "Vertex: %d distance: %d\n"ANSI_COLOR_RESET, i, distance[i]);
+}
+
+void Floyd(LinkedGraph *origin, int VertexID)
+{
+
 }
