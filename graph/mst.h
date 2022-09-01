@@ -8,5 +8,6 @@
 void Kruskal(LinkedGraph *origin);
 void Prim(LinkedGraph *origin, int vertexID);
 void Dijkstra(LinkedGraph *origin, int VertexID);
+void Floyd(LinkedGraph *origin);
 
 #endif

@@ -52,6 +52,30 @@ void TestDijkstra(void)
 	Dijkstra(rtn, 0);
 }
 
+void TestFloyd(void)
+{
+	LinkedGraph *rtn;
+
+	printf("!!!!!Floyd!!!!!!\n");
+	rtn = createLinkedGraph(6);
+	addVertexLG(rtn, 0);
+	addVertexLG(rtn, 1);
+	addVertexLG(rtn, 2);
+	addVertexLG(rtn, 3);
+	addVertexLG(rtn, 4);
+	addVertexLG(rtn, 5);
+
+	addEdgewithWeightLG(rtn, 0, 1, 1);
+	addEdgewithWeightLG(rtn, 0, 2, 4);
+	addEdgewithWeightLG(rtn, 1, 2, 2);
+	addEdgewithWeightLG(rtn, 2, 3, 1);
+	addEdgewithWeightLG(rtn, 3, 4, 8);
+	addEdgewithWeightLG(rtn, 3, 5, 3);
+	addEdgewithWeightLG(rtn, 4, 5, 4);
+
+	Floyd(rtn);
+}
+
 int main(void)
 {
 	LinkedGraph *pGraph = CreateUndirectedWeight();
@@ -65,4 +89,7 @@ int main(void)
 	Prim(pGraph, 1);
 	printf("\n\n");
 	TestDijkstra();
+	printf("\n\n");
+	TestFloyd();
+	return 0;
 }

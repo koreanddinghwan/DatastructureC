@@ -224,7 +224,60 @@ void Dijkstra(LinkedGraph *origin, int VertexID)
 		printf(ANSI_COLOR_BLUE "Vertex: %d distance: %d\n"ANSI_COLOR_RESET, i, distance[i]);
 }
 
-void Floyd(LinkedGraph *origin, int VertexID)
-{
+//Floyd
 
+void InitMap(LinkedGraph *origin, int map[origin->maxVertexCount][origin->maxVertexCount])
+{
+	//map init
+	for (int i = 0; i < origin->maxVertexCount; i++)
+	{
+		for (int j =0; j < origin->maxVertexCount; j++)
+		{
+			if (i == j)
+				map[i][j] = 0;
+			else
+				map[i][j] = 100000000;
+		}
+	}
+
+	ListNode *node;
+	for (int i = 0; i < origin->maxVertexCount; i++)
+	{
+		node = origin->ppAdjEdge[i]->headerNode.pLink;
+		while (node)
+		{
+			map[i][node->vertexID] = node->weight;
+			node = node->pLink;
+		}
+	}
+}
+
+void Floyd(LinkedGraph *origin)
+{
+	int map[origin->maxVertexCount][origin->maxVertexCount];
+
+	InitMap(origin, map);
+
+
+	//roop
+	for (int i = 0; i < origin->maxVertexCount; i++)
+	{
+		for (int j = 0; j < origin->maxVertexCount; j++)
+		{
+			for (int k = 0; k < origin->maxVertexCount; k++)
+			{
+				if (map[j][k] > map[j][i] + map[i][k])
+					map[j][k] = map[j][i] + map[i][k];
+			}
+		}
+	}
+
+	for (int i = 0; i < origin->maxVertexCount; i++)
+	{
+		for (int j = 0; j  < origin->maxVertexCount; j++)
+		{
+			printf(ANSI_COLOR_YELLOW "| %d |" ANSI_COLOR_RESET, map[i][j]);
+		}
+		printf("\n");
+	}
 }
