@@ -25,7 +25,7 @@ void initHeap(t_vector *heap, LinkedGraph *origin)
 
 void Kruskal(LinkedGraph *origin)
 {
-	//heap
+	//heap에서 가중치가 가장 작은 원소 순서대로
 	t_vector *heap = vector(origin->currentVertexCount);
 	initHeap(heap, origin);
 
@@ -43,9 +43,6 @@ void Kruskal(LinkedGraph *origin)
 		visited[tmp.fromVertex] = VISITED;
 	}
 }
-
-
-
 
 
 //////////Prim
@@ -131,6 +128,7 @@ void PrimUtil(LinkedGraph *origin, int *visited, int fromvertexID, int toVertexI
 
 	if (checkRecurEnd(origin->maxVertexCount, visited) == TRUE)
 		return ;
+	//방문했던 vertex와 연결된 edge중 가중치가 가장 작은 edge순서대로
 	EDGE edge = getNocycleMinEdgeInVisited(origin, visited);
 	PrimUtil(origin, visited, toVertexID, edge.VertexID);
 }
@@ -266,6 +264,8 @@ void Floyd(LinkedGraph *origin)
 		{
 			for (int k = 0; k < origin->maxVertexCount; k++)
 			{
+				//j - i - k로 연결된 vertex간의 거리 중
+				//j - k가 j - i + i - k보다 크면 더 작은 값으로 업데이트
 				if (map[j][k] > map[j][i] + map[i][k])
 					map[j][k] = map[j][i] + map[i][k];
 			}
@@ -275,9 +275,7 @@ void Floyd(LinkedGraph *origin)
 	for (int i = 0; i < origin->maxVertexCount; i++)
 	{
 		for (int j = 0; j  < origin->maxVertexCount; j++)
-		{
 			printf(ANSI_COLOR_YELLOW "| %d |" ANSI_COLOR_RESET, map[i][j]);
-		}
 		printf("\n");
 	}
 }
